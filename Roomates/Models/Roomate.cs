@@ -3,7 +3,7 @@
 namespace Roommates.Models
 {
     // C# representation of the Roommate table
-    public class Roommate
+    public class Roomate
     {
         public int Id { get; set; }
         public string FirstName { get; set; }

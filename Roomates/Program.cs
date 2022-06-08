@@ -16,7 +16,8 @@ namespace Roommates
         {
             RoomRepository roomRepo = new RoomRepository(CONNECTION_STRING);
             ChoreRepository choreRepo = new ChoreRepository(CONNECTION_STRING);
-            
+            RoomateRepository roomateRepository = new RoomateRepository(CONNECTION_STRING);
+
             bool runProgram = true;
             while (runProgram)
             {
@@ -66,7 +67,7 @@ namespace Roommates
                         break;
                     case ("Show all chores"):
                         List<Chore> chores = choreRepo.GetAll();
-                        foreach(Chore chore in chores)
+                        foreach (Chore chore in chores)
                         {
                             Console.WriteLine($"{chore.Id} - {chore.Name}");
                         }
@@ -97,6 +98,22 @@ namespace Roommates
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Search for a roommate"):
+                        Console.Write("Enter roommate id: ");
+                        int rId = int.Parse(Console.ReadLine());
+                        Roomate searchedRoomate = roomateRepository.GetById(rId);
+                        if (searchedRoomate != null)
+                        {
+                            Console.WriteLine($"{searchedRoomate.FirstName} - Rent Portion: {searchedRoomate.RentPortion} - Room: {searchedRoomate.Room.Name}");
+
+                        }
+                        else
+                        {
+                            Console.WriteLine("No such roommate");
+                        }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Exit"):
                         runProgram = false;
                         break;
@@ -117,6 +134,7 @@ namespace Roommates
                 "Show all chores",
                 "Search for a chore",
                 "Add a chore",
+                "Search for a roommate",
                 "Exit"
             };
 
