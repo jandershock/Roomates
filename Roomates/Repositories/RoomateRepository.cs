@@ -48,5 +48,40 @@ namespace Roommates.Repositories
                 }
             }
         }
+        public List<Roomate> GetAll()
+        {
+            using(SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using(SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT Roommate.Id, FirstName, LastName, RentPortion, MoveInDate, Room.Id AS RoomId, Room.Name AS RoomName, Room.MaxOccupancy
+                                        FROM Roommate
+                                        JOIN Room ON Room.Id = Roommate.RoomId;";
+                    using(SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        List<Roomate> roomateList = new List<Roomate>();
+                        while(reader.Read())
+                        {
+                            roomateList.Add(new Roomate()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                RentPortion = reader.GetInt32(reader.GetOrdinal("RentPortion")),
+                                MovedInDate = reader.GetDateTime(reader.GetOrdinal("MoveInDate")),
+                                Room = new Room()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("RoomId")),
+                                    Name = reader.GetString(reader.GetOrdinal("RoomName")),
+                                    MaxOccupancy = reader.GetInt32(reader.GetOrdinal("MaxOccupancy"))
+                                }
+                            });
+                        }
+                        return roomateList;
+                    }
+                }
+            }
+        }
     }
 }
