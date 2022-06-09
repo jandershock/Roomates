@@ -105,6 +105,34 @@ namespace Roommates
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Assign chore to roommate"):
+                        List<Chore> allChores = choreRepo.GetAll();
+                        List<Roomate> allRoomates = roomateRepository.GetAll();
+                        foreach(Chore chore in allChores)
+                        {
+                            Console.WriteLine($"{chore.Id} - \"{chore.Name}\"");
+                        }
+                        Console.Write("Enter a chore id: ");
+                        int enteredChoreId = int.Parse(Console.ReadLine());
+                        foreach(Roomate roomate in allRoomates)
+                        {
+                            Console.WriteLine($"{roomate.Id} - {roomate.FirstName} {roomate.LastName}");
+                        }
+                        Console.Write("Enter a roommate id: ");
+                        int enteredRoommateId = int.Parse(Console.ReadLine());
+
+                        int? responseInt = choreRepo.AssignChore(enteredRoommateId, enteredChoreId);
+                        if (responseInt != null)
+                        {
+                            Console.WriteLine($"Successfully added RoomateChore with id of {responseInt}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("There was an error assigning the chore.");
+                        }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Add a chore"):
                         Chore choreToAdd = new Chore();
                         Console.Write("Enter chore name: ");
@@ -150,6 +178,7 @@ namespace Roommates
                 "Show all chores",
                 "Search for a chore",
                 "Show all unassigned chores",
+                "Assign chore to roommate",
                 "Add a chore",
                 "Search for a roommate",
                 "Exit"

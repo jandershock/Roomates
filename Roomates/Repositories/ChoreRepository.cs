@@ -117,7 +117,7 @@ namespace Roommates.Repositories
                 }
             }
         }
-        public void AssignChore(int roomateId, int choreId)
+        public int AssignChore(int roomateId, int choreId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -129,6 +129,7 @@ namespace Roommates.Repositories
                                         VALUES (@roommateId, @choreId)";
                     cmd.Parameters.AddWithValue("@roommateId", roomateId);
                     cmd.Parameters.AddWithValue("@choreId", choreId);
+                    return (int) cmd.ExecuteScalar();
                 }
             }
         }
