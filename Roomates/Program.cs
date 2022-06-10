@@ -211,6 +211,26 @@ namespace Roommates
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Delete a chore"):
+                        List<Chore> allChores2 = choreRepo.GetAll();
+                        foreach(Chore chore in allChores2)
+                        {
+                            Console.WriteLine($"{chore.Id} - {chore.Name}");
+                        }
+                        Console.Write("Please enter id of chore you wish to delete: ");
+                        int choreIdToDelete = int.Parse(Console.ReadLine());
+                        int deleteResponse = choreRepo.Delete(choreIdToDelete);
+                        if (deleteResponse > 0)
+                        {
+                            Console.WriteLine($"Successfully deleted {deleteResponse} entry");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Delete was unsuccessful");
+                        }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Search for a roommate"):
                         Console.Write("Enter roommate id: ");
                         int rId = int.Parse(Console.ReadLine());
@@ -253,6 +273,7 @@ namespace Roommates
                 "Show chore counts for all roommates",
                 "Add a chore",
                 "Update a chore",
+                "Delete a chore",
                 "Search for a roommate",
                 "Exit"
             };
