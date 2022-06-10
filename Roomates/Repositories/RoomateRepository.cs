@@ -83,5 +83,47 @@ namespace Roommates.Repositories
                 }
             }
         }
+
+        public List<Roomate> GetAssigneesForChoreId(int choreId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"";
+                }
+            }
+        }
+
+        //public List<Chore> GetAllChoresForRoomate(int roomateId)
+        //{
+        //    using (SqlConnection conn = Connection)
+        //    {
+        //        conn.Open();
+        //        using (SqlCommand cmd = conn.CreateCommand())
+        //        {
+        //            cmd.CommandText = @"SELECT DISTINCT Chore.Id AS choreId, Chore.Name
+        //                                FROM Roommate
+        //                                JOIN RoommateChore ON RoommateChore.RoommateId = Roommate.Id
+        //                                JOIN CHORE ON RoommateChore.ChoreId = Chore.Id
+        //                                WHERE Roommate.Id = @roomateId;";
+        //            cmd.Parameters.AddWithValue("@roomateId", roomateId);
+        //            using (SqlDataReader reader = cmd.ExecuteReader())
+        //            {
+        //                List<Chore> roommateChoreList = new List<Chore>();
+        //                while(reader.Read())
+        //                {
+        //                    roommateChoreList.Add(new Chore()
+        //                    {
+        //                        Id=reader.GetInt32(reader.GetOrdinal("choreId")),
+        //                        Name=reader.GetString(reader.GetOrdinal("Name"))
+        //                    });
+        //                }
+        //                return roommateChoreList;
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

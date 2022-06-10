@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Roommates.Models
 {
@@ -11,5 +12,7 @@ namespace Roommates.Models
         public int RentPortion { get; set; }
         public DateTime MovedInDate { get; set; }
         public Room Room { get; set; }
+
+        public List<Chore> assignedChores { get; set;}
     }
 }

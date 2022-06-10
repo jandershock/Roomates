@@ -117,6 +117,34 @@ namespace Roommates.Repositories
                 }
             }
         }
+
+        public List<Chore> GetAssignedChores()
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"SELECT DISTINCT Chore.Id, Chore.Name
+                                        FROM Chore
+                                        JOIN RoommateChore ON RoommateChore.ChoreId = Chore.Id
+                                        ORDER BY Chore.Id";
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        List<Chore> assignedChores = new List<Chore>();
+                        while (reader.Read())
+                        {
+                            assignedChores.Add(new Chore()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Name = reader.GetString(reader.GetOrdinal("Name"))
+                            });
+                        }
+                        return assignedChores;
+                    }
+                }
+            }
+        }
         public int AssignChore(int roomateId, int choreId)
         {
             using (SqlConnection conn = Connection)
@@ -208,5 +236,7 @@ namespace Roommates.Repositories
                 }
             }
         }
+
+        
     }
 }
