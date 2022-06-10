@@ -188,6 +188,29 @@ namespace Roommates
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
                         break;
+                    case ("Update a chore"):
+                        List<Chore> allChores1 = choreRepo.GetAll();
+                        foreach(Chore chore in allChores1)
+                        {
+                            Console.WriteLine($"{chore.Id} - {chore.Name}");
+                        }
+                        Console.Write("Enter id of chore you wish to update: ");
+                        int selectedChoreId = int.Parse(Console.ReadLine());
+                        Chore selectedChore = allChores1.FirstOrDefault(x => x.Id == selectedChoreId);
+                        Console.Write("Please enter new name for chore: ");
+                        selectedChore.Name = Console.ReadLine();
+                        int response = choreRepo.Update(selectedChore);
+                        if (response > 0)
+                        {
+                            Console.WriteLine($"Updated {response} chore.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("A problem occured during the update");
+                        }
+                        Console.WriteLine("Press any key to continue");
+                        Console.ReadKey();
+                        break;
                     case ("Search for a roommate"):
                         Console.Write("Enter roommate id: ");
                         int rId = int.Parse(Console.ReadLine());
@@ -229,6 +252,7 @@ namespace Roommates
                 "Assign chore to roommate",
                 "Show chore counts for all roommates",
                 "Add a chore",
+                "Update a chore",
                 "Search for a roommate",
                 "Exit"
             };
