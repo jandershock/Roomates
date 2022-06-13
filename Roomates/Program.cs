@@ -172,9 +172,36 @@ namespace Roommates
                         break;
                     case ("Reassign a chore"):
                         List<Chore> assignedChores = choreRepo.GetAssignedChores();
+                        Console.WriteLine("Currently Assigned Chores:");
                         foreach(Chore c in assignedChores)
                         {
                             Console.WriteLine($"{c.Id} - {c.Name}");
+                        }
+                        Console.Write("Please enter the id of the chore you wish to reassign: ");
+                        int choreId2 = int.Parse(Console.ReadLine());
+                        List<Roomate> assignedTo = roomateRepository.GetAssigneesForChoreId(choreId2);
+                        Console.WriteLine("This chore is assigned to: ");
+                        foreach(Roomate roomate in assignedTo)
+                        {
+                            Console.WriteLine($"Assigned to: {roomate.Id} - {roomate.FirstName} {roomate.LastName}");
+                        }
+                        Console.Write("Please enter the id of the roomate you wish to remove the assignment from: ");
+                        int oldRoomateId = int.Parse(Console.ReadLine());
+                        List<Roomate> allRoomates1 = roomateRepository.GetAll();
+                        foreach(Roomate roomate in allRoomates1)
+                        {
+                            Console.WriteLine($"{roomate.Id} - {roomate.FirstName} {roomate.LastName}");
+                        }
+                        Console.Write("Please enter the id of the roomate you wish to reassign the chore to: ");
+                        int newRoomateId = int.Parse(Console.ReadLine());
+                        int response = roomateRepository.ReassignChoreToAnotherRoommate(oldRoomateId, choreId2, newRoomateId);
+                        if (response > 0)
+                        {
+                            Console.WriteLine($"Successfully updated {response} entry");
+                        }
+                        else
+                        {
+                            Console.WriteLine("There was an error reassigning the chore");
                         }
                         Console.WriteLine("Press any key to continue");
                         Console.ReadKey();
@@ -208,10 +235,10 @@ namespace Roommates
                         Chore selectedChore = allChores1.FirstOrDefault(x => x.Id == selectedChoreId);
                         Console.Write("Please enter new name for chore: ");
                         selectedChore.Name = Console.ReadLine();
-                        int response = choreRepo.Update(selectedChore);
-                        if (response > 0)
+                        int responseReassign = choreRepo.Update(selectedChore);
+                        if (responseReassign > 0)
                         {
-                            Console.WriteLine($"Updated {response} chore.");
+                            Console.WriteLine($"Updated {responseReassign} chore.");
                         }
                         else
                         {
